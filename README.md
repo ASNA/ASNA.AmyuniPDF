@@ -1,4 +1,4 @@
-### An Amyuni wrapper library
+### An Amyuni PDF wrapper library
    
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. These tasks are all squirreled away in a simple class library wrapper composed of three classes: 
 
@@ -10,7 +10,7 @@ The Amyuni PDF driver needs several configuration tasks performed before it can 
      
 These classes all live within the ASNA.AmyuniPDF namespace. 
 
-When you purchase the Amuni PDF driver you are provided three two of information required at runtime (the license code and the company for whom the license was issued). You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
+When you purchase the Amuni PDF driver you are provided three two of information required at runtime (the license code and the company for whom the license was issued). You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
  
 	<?xml version="1.0" encoding="utf-8" ?>
 	<Root>
@@ -26,3 +26,39 @@ This class library needs a reference to the Amyuni Document Converter ActiveX CO
 ![](https://asna.com/filebin/marketing//article-figures/SetAmyuniReference.png?x=1449611644571)
 
 When you add a reference to a COM object in .NET, what you really need is the `Interop` version of the DLL (which is a .NET assembly that provides .NET with runtime type information about the COM component). That doesn't appear in the BIN folder when you add a COM reference to class library. In consuming Windows or Web apps, we'll also add a reference to the Amyuni ActiveX component and that will provide those projects' BIN folder with the necessary `Interop` version of the DLL.
+
+#### Runtime properties
+
+The following properties are surfaced by the `DriverInfo` class:
+
+* __PrinterName__ Populated from the `AmyuniDriverInfo.XML` file.
+* __LicenseCompany__ Populated from the `AmyuniDriverInfo.XML` file.
+* __LicenseCode__ Populated from the `AmyuniDriverInfo.XML` file.
+* __OutputPath__ Provided at runtime. 
+* __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond being providing the core part of the PDF file name, this is also the name of the entry in the Windows print spooler. 
+
+#### Example usage
+
+The simplest possible use of this class library is shown below. In this case, `XmlFilePath` provides the path where the `AmyuniDriverInfo.XML` is located and `OutFilePath` is the output path where you want generated PDFs placed.
+
+
+    DclPrintFile MyPrint +
+                 DB(prntDB) +
+                 File("Examples/CustList2") +
+                 ImpOpen(*No)	
+
+    DclFld am          Type(ASNA.AmyUniPDF.Manager)
+    DclFld PDFFileName Type(*String)
+
+    am = *New ASNA.AmyUniPDF.Manager(XmlFilePath, OutputFilePath)
+    am.StartDriver()
+    MyPrint.Printer = am.DriverInfo.PrinterName
+    MyPrint.ReportName = am.DriverInfo.OutputFileName
+
+    PrintReport()
+
+    PDFFileName = am.StopDriver()
+    
+After calling StartDriver(), it's very important to assign the PrinterName and the OutputFileName properties to the DataGate printer file's `Printer` and `ReportName` properties (respectively).
+
+The PrintReport() provides the logic to write to formats of the DataGate print file. There isn't anything Amyuni PDF driver-specific in that logic.  
