@@ -35,7 +35,7 @@ The following properties are surfaced by the `DriverInfo` class:
 * __LicenseCompany__ Populated from the `AmyuniDriverInfo.XML` file.
 * __LicenseCode__ Populated from the `AmyuniDriverInfo.XML` file.
 * __OutputPath__ Provided at runtime. 
-* __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond being providing the core part of the PDF file name, this is also the name of the entry in the Windows print spooler. 
+* __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond providing the core part of the PDF file name this is also the name of the entry in the Windows print spooler. 
 
 #### Example usage
 
@@ -61,4 +61,6 @@ The simplest possible use of this class library is shown below. In this case, `X
     
 After calling StartDriver(), it's very important to assign the PrinterName and the OutputFileName properties to the DataGate printer file's `Printer` and `ReportName` properties (respectively).
 
-The PrintReport() provides the logic to write to formats of the DataGate print file. There isn't anything Amyuni PDF driver-specific in that logic.  
+The PrintReport() provides the logic to write to formats of the DataGate print file. There isn't anything Amyuni PDF driver-specific in that logic.
+
+Error handling is all exception based. Handling any thrown exceptions is omitted from the the example code below.    
