@@ -8,21 +8,21 @@ BegClass Helpers Access(*Public)
     BegFunc EnsureTrailingSlash Type(*String) Access(*Public) Shared(*Yes)
         DclSrParm PathName Type(*String)
 
-        DclFld Result Type(*String) 
+        DclFld Result Type(*String)
 
         Result = PathName.EndsWith('\') ? PathName : PathName + '\'
-        LeaveSr Result   
-    EndFunc 
+        LeaveSr Result
+    EndFunc
 
     BegFunc ConvertInchesToPrintUnits Type(*Packed) Len(2, 1) Access(*Public) Shared(*Yes)
-        DclSrParm Inches Type(*Packed) Len(2,1) 
+        DclSrParm Inches Type(*Packed) Len(2,1)
 
         If (Inches > 0)
             LeaveSr Inches * 254
         Else
-            LeaveSr 0 
-        EndIf 
-    EndFunc 
+            LeaveSr 0
+        EndIf
+    EndFunc
 
 EndClass
 

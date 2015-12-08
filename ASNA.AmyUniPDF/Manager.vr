@@ -12,7 +12,7 @@ EndEnum
 
 BegClass Manager Access(*Public)
     DclFld DriverInfo Type(DriverInfo) Access(*Public)
- 	DclFld AmyuniPDF  Type(CDIntfEx.CDIntfExClass) Access(*Private)
+    DclFld AmyuniPDF  Type(CDIntfEx.CDIntfExClass) Access(*Private)
 
     //--------------------------------------------------------------------------
     // Public constructor(s).
@@ -67,38 +67,38 @@ BegClass Manager Access(*Public)
         LeaveSr DriverInfo.OutputFileName + ".pdf"
     EndFunc
 
-	BegSr WaitForFile
-		DclSrParm FiletoMonitor Type(*String)
+    BegSr WaitForFile
+        DclSrParm FiletoMonitor Type(*String)
 
-		DclFld Stream		Type(FileStream)
-		DclFld FileisInUse	Type(*Boolean)
+        DclFld Stream       Type(FileStream)
+        DclFld FileisInUse  Type(*Boolean)
         DclFld MaxTries     Type(*Integer4) Inz(10)
         DclFld TryCount     Type(*Integer4)
 
-		// This routine is required because it takes a few seconds for AmyuniPDF to 'release' the PDF
-		// once print file is closed. This method tries to open file, which it cannot do until AmyuniPDF
-		// releases it. Once the file can be opened, you're good to do.
+        // This routine is required because it takes a few seconds for AmyuniPDF to 'release' the PDF
+        // once print file is closed. This method tries to open file, which it cannot do until AmyuniPDF
+        // releases it. Once the file can be opened, you're good to do.
 
-		If System.IO.File.Exists(FiletoMonitor)
-			FileisInUse = *True
+        If System.IO.File.Exists(FiletoMonitor)
+            FileisInUse = *True
 
-			DoWhile FileisInUse
-				Try
-					Stream = System.IO.File.Open(FiletoMonitor,FileMode.Open,FileAccess.Read,FileShare.None)
-					FileisInUse = *False
+            DoWhile FileisInUse
+                Try
+                    Stream = System.IO.File.Open(FiletoMonitor,FileMode.Open,FileAccess.Read,FileShare.None)
+                    FileisInUse = *False
                     TryCount += 1
                     If (TryCount = MaxTries)
                         Stream.Close()
                         Throw *New System.ApplicationException("AmyuniPDF didn't release the PDF.")
                     EndIf
-				Catch
-					System.Threading.Thread.Sleep(3000)
-				EndTry
-			EndDo
+                Catch
+                    System.Threading.Thread.Sleep(3000)
+                EndTry
+            EndDo
 
-			If Stream <> *Nothing
-				Stream.Close()
-			EndIf
-		EndIf
+            If Stream <> *Nothing
+                Stream.Close()
+            EndIf
+        EndIf
     EndSr
 EndClass

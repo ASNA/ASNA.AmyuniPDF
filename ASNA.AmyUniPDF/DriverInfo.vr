@@ -35,7 +35,7 @@ BegClass DriverInfo Access(*Public)
         DclFld XmlDoc          Type(XmlDocument) New()
         DclFld DocRoot         Type(*String)
         DclFld Node            Type(XmlNode)
-        DclFld ai              Type(DriverInfo) New()
+        DclFld ai              Type(DriverInfo) N
         DclFld FullXmlFileName Type(*String)
 
         OutputFilePath = Helpers.EnsureTrailingSlash(OutputFilePath)
