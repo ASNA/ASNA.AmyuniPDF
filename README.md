@@ -6,9 +6,11 @@ The Amyuni PDF driver needs several configuration tasks performed before it can 
 * __PdfDriverInfo__ provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class. This class instance is available as the `DriverInfo` property of the `Manager` class.      
 * __Manager__ provides the methods that empower the Amyuni PDF driver to do its magic. The three methods (which correspond nearly directly to the three Amyuni APIs needs to work with the driver) are:
 	* __StartDriver__ is a subroutine that starts the Amyuni PDF driver. After calling this method, the driver is ready to accept output. 
-	* __StopDriver__  is a function that stops the Amyuni PDF driver. This method must be called after the report logic has been performed. This driver stops the Amyuni PDF driver and returns the PDF's file name (the name and extension only, not the file's fully qualified path location).  
+	* __StopDriver__  is a function that stops the Amyuni PDF driver. This method must be called after the report logic has been performed. This driver stops the Amyuni PDF driver and returns the PDF's file name (the name and extension only, not the file's fully qualified path location).  git sta
      
-These classes all live within the ASNA.AmyuniPDF namespace.   
+These classes all live within the ASNA.AmyuniPDF namespace.
+
+#### Persisting runtime values   
 
 When you purchase the Amuni PDF driver you are provided three two of information required at runtime (the license code and the company for whom the license was issued). You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
  
@@ -21,12 +23,6 @@ When you purchase the Amuni PDF driver you are provided three two of information
 	    </AmyuniPDF>
 	</Root>
 
-This class library needs a reference to the Amyuni Document Converter ActiveX COM object. To set this, right click on your solution and click "Add reference..." Then, click the COM tab and scroll down to the Amyuni ActiveX component and click "OK." 
-
-![](https://asna.com/filebin/marketing//article-figures/SetAmyuniReference.png?x=1449611644571)
-
-When you add a reference to a COM object in .NET, what you really need is the `Interop` version of the DLL (which is a .NET assembly that provides .NET with runtime type information about the COM component). That doesn't appear in the BIN folder when you add a COM reference to class library. In consuming Windows or Web apps, we'll also add a reference to the Amyuni ActiveX component and that will provide those projects' BIN folder with the necessary `Interop` version of the DLL.
-
 #### Runtime properties
 
 The following properties are surfaced by the `DriverInfo` class:
@@ -35,7 +31,15 @@ The following properties are surfaced by the `DriverInfo` class:
 * __LicenseCompany__ Populated from the `AmyuniDriverInfo.XML` file.
 * __LicenseCode__ Populated from the `AmyuniDriverInfo.XML` file.
 * __OutputPath__ Provided at runtime. 
-* __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond providing the core part of the PDF file name this is also the name of the entry in the Windows print spooler. 
+* __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond providing the core part of the PDF file name this is also the name of the entry in the Windows print spooler.  
+
+#### Referencing the Amyuni ActiveX COM object
+
+This class library needs a reference to the Amyuni Document Converter ActiveX COM object. To set this, right click on your solution and click "Add reference..." Then, click the COM tab and scroll down to the Amyuni ActiveX component and click "OK." 
+
+![](https://asna.com/filebin/marketing//article-figures/SetAmyuniReference.png?x=1449611644571)
+
+When you add a reference to a COM object in .NET, what you really need is the `Interop` version of the DLL (which is a .NET assembly that provides .NET with runtime type information about the COM component). That doesn't appear in the BIN folder when you add a COM reference to class library. In consuming Windows or Web apps, we'll also add a reference to the Amyuni ActiveX component and that will provide those projects' BIN folder with the necessary `Interop` version of the DLL.
 
 #### Example usage
 
