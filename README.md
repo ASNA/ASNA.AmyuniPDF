@@ -3,12 +3,12 @@
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. These tasks are all squirreled away in a simple class library wrapper composed of three classes: 
 
 * __Helpers__ provides a couple of helper methods.  
-* __DriverInfo__ provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class.        
+* __PdfDriverInfo__ provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class. This class instance is available as the `DriverInfo` property of the `Manager` class.      
 * __Manager__ provides the methods that empower the Amyuni PDF driver to do its magic. The three methods (which correspond nearly directly to the three Amyuni APIs needs to work with the driver) are:
 	* __StartDriver__ is a subroutine that starts the Amyuni PDF driver. After calling this method, the driver is ready to accept output. 
 	* __StopDriver__  is a function that stops the Amyuni PDF driver. This method must be called after the report logic has been performed. This driver stops the Amyuni PDF driver and returns the PDF's file name (the name and extension only, not the file's fully qualified path location).  
      
-These classes all live within the ASNA.AmyuniPDF namespace. 
+These classes all live within the ASNA.AmyuniPDF namespace.   
 
 When you purchase the Amuni PDF driver you are provided three two of information required at runtime (the license code and the company for whom the license was issued). You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
  
@@ -59,7 +59,7 @@ The simplest possible use of this class library is shown below. In this case, `X
 
     PDFFileName = am.StopDriver()
     
-After calling StartDriver(), it's very important to assign the PrinterName and the OutputFileName properties to the DataGate printer file's `Printer` and `ReportName` properties (respectively).
+After calling `StartDriver()`, it's very important to assign the `PrinterName` and the `OutputFileName` properties to the DataGate printer file's `Printer` and `ReportName` properties (respectively).
 
 The PrintReport() provides the logic to write to formats of the DataGate print file. There isn't anything Amyuni PDF driver-specific in that logic.
 
