@@ -5,7 +5,7 @@ Using System.IO
 
 DclNamespace ASNA.AmyUniPDF
 
-BegClass PdfDriverInfo Access(*Public)
+BegClass DriverInfo Access(*Public)
     DclProp PrinterName          Type(*String) Access(*Public) SetAccess(*Private)
     DclProp LicenseCompany       Type(*String) Access(*Public) SetAccess(*Private)
     DclProp LicenseCode          Type(*String) Access(*Public) SetAccess(*Private)
@@ -19,6 +19,7 @@ BegClass PdfDriverInfo Access(*Public)
         DclConst FileName Value('AmyuniDriverInfo.xml')
 
         XmlFilePath = Helpers.EnsureTrailingSlash(XmlFilePath)
+
         FullXmlFileName = XmlFilePath + FileName
         If ( NOT File.Exists(FullXmlFileName))
             Throw *New System.Exception('Amyuni XML driver info file is not available at: ' + FullXmlFileName)
@@ -27,14 +28,14 @@ BegClass PdfDriverInfo Access(*Public)
         LeaveSr FullXmlFileName
     EndFunc
 
-    BegFunc GetInstance Access(*Public) Shared(*Yes) Type(PDFDriverInfo)
+    BegFunc GetInstance Access(*Public) Shared(*Yes) Type(DriverInfo)
         DclSrParm XmlFilePath     Type(*String)
         DclSrParm OutputFilePath  Type(*String)
 
         DclFld XmlDoc          Type(XmlDocument) New()
         DclFld DocRoot         Type(*String)
         DclFld Node            Type(XmlNode)
-        DclFld di              Type(PDFDriverInfo) New()
+        DclFld ai              Type(DriverInfo) N
         DclFld FullXmlFileName Type(*String)
 
         OutputFilePath = Helpers.EnsureTrailingSlash(OutputFilePath)
@@ -44,18 +45,18 @@ BegClass PdfDriverInfo Access(*Public)
 
         DocRoot = "/Root"
         Node = XmlDoc.SelectSingleNode(DocRoot + '/AmyuniPDF/PrinterName')
-        di.PrinterName = Node.InnerText
+        ai.PrinterName = Node.InnerText
 
         Node = XmlDoc.SelectSingleNode(DocRoot + '/AmyuniPDF/LicenseCompany')
-        di.LicenseCompany = Node.InnerText
+        ai.LicenseCompany = Node.InnerText
 
         Node = XmlDoc.SelectSingleNode(DocRoot + '/AmyuniPDF/LicenseCode')
-        di.LicenseCode = Node.InnerText
+        ai.LicenseCode = Node.InnerText
 
-        di.OutputFileName = Path.GetRandomFileName().Replace('.', '-')
-        di.OutputPath = OutputFilePath
+        ai.OutputFileName = Path.GetRandomFileName().Replace('.', '-')
+        ai.OutputPath = OutputFilePath
 
-        LeaveSr di
+        LeaveSr ai
     EndFunc
 EndClass
 

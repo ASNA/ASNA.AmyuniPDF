@@ -11,7 +11,7 @@ BegEnum AmyuniFileOptions
 EndEnum
 
 BegClass Manager Access(*Public)
-    DclFld DriverInfo Type(PDFDriverInfo) Access(*Public) 
+    DclFld DriverInfo Type(PDFDriverInfo) Access(*Public)
     DclFld AmyuniPDF  Type(CDIntfEx.CDIntfExClass) Access(*Private)
 
     //--------------------------------------------------------------------------
@@ -50,6 +50,7 @@ BegClass Manager Access(*Public)
 
         ReturnCode = AmyuniPDF.EnablePrinter(DriverInfo.LicenseCompany,DriverInfo.LicenseCode)
         If (ReturnCode <> 0)
+            AmyuniPDF.Unlock(SpoolFileName, 1000)
             Throw *New System.ApplicationException("AmyuniPDF failed on EnablePrinter() call.")
         EndIf
     EndSr

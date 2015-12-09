@@ -1,4 +1,6 @@
 ### An Amyuni PDF wrapper library
+
+
    
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. These tasks are all squirreled away in a simple class library wrapper composed of three classes: 
 
@@ -8,7 +10,7 @@ The Amyuni PDF driver needs several configuration tasks performed before it can 
 	* __StartDriver__ is a subroutine that starts the Amyuni PDF driver. After calling this method, the driver is ready to accept output. 
 	* __StopDriver__  is a function that stops the Amyuni PDF driver. This method must be called after the report logic has been performed. This driver stops the Amyuni PDF driver and returns the PDF's file name (the name and extension only, not the file's fully qualified path location).  git sta
      
-These classes all live within the ASNA.AmyuniPDF namespace.
+These classes all live within the ASNA.AmyuniPDF namespace. Most of the code in this project is either self-explanatory or can be looked up in the [Amyuni documentation](https://www.amyuni.com/WebHelp/Developer_Documentation.htm#Amyuni_Document_Converter/Introduction.htm).  
 
 #### Persisting runtime values   
 
@@ -68,3 +70,22 @@ After calling `StartDriver()`, it's very important to assign the `PrinterName` a
 The PrintReport() provides the logic to write to formats of the DataGate print file. There isn't anything Amyuni PDF driver-specific in that logic.
 
 Error handling is all exception based. Handling any thrown exceptions is omitted from the the example code below.    
+
+#### Waiting for output
+
+Most of the code in the `Manager` class's StartDriver() and StopDriver() methods is pretty predictable, especially if you look at the [Amyuni docs](https://www.amyuni.com/WebHelp/Developer_Documentation.htm#Amyuni_Document_Converter/Introduction.htm). There is, however, one thing that deserves mentioning that occurs in the `Manager` classe's `StopDriver()` method (its code is shown below). 
+
+    BegFunc StopDriver Type(*String) Access(*Public)
+        DclFld SpoolFileName Type(*String)
+
+        SpoolFileName = DriverInfo.OutputFileName
+        AmyuniPDF.RestoreDefaultPrinter()
+        AmyuniPDF.Unlock(SpoolFileName, 1000)
+        AmyuniPDF.DriverEnd()
+        AmyuniPDF = *Nothing
+
+        WaitForFile(DriverInfo.OutputPath + DriverInfo.OutputFileName + ".pdf")
+        LeaveSr DriverInfo.OutputFileName + ".pdf"
+    EndFunc
+
+This method should be called after your logic has printed your report. You'll notice that this code calls the Amyuni PDF driver's `Unlock()` method. This call is a little on the superstitious because the driver itself calls this method internally when it's needed. The Unlock() method unlocks the given spool file name and then waits a given number of milliseconds to ensure the PDF is written and closed before continuing. However, you'll also notice a that a second wait occurs in the WaitForFile method (that method is in the `Manager` class). That code provides a second test to make absolutely sure the PDF is ready to use. Latency can occur as the PDF is being written disk and this avoids any problems that may cause.
