@@ -1,8 +1,6 @@
 ### An Amyuni PDF wrapper library
-
-
    
-The Amyuni PDF driver needs several configuration tasks performed before it can be used. These tasks are all squirreled away in a simple class library wrapper composed of three classes: 
+The Amyuni PDF driver needs several configuration tasks performed before it can be used. To make the Amyuni PDF driver easy to use we've squirreled away these tasks in a simple AVR class library wrapper composed of three classes: 
 
 * __Helpers__ provides a couple of helper methods.  
 * __PdfDriverInfo__ provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class. This class instance is available as the `DriverInfo` property of the `Manager` class.      
@@ -14,7 +12,7 @@ These classes all live within the ASNA.AmyuniPDF namespace. Most of the code in 
 
 #### Persisting runtime values   
 
-When you purchase the Amuni PDF driver you are provided three two of information required at runtime (the license code and the company for whom the license was issued). You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
+When you purchase the Amuni PDF driver you are provided a runtime license code and the exact company name for whom the license was issued. You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
  
 	<?xml version="1.0" encoding="utf-8" ?>
 	<Root>
@@ -88,4 +86,4 @@ Most of the code in the `Manager` class's StartDriver() and StopDriver() methods
         LeaveSr DriverInfo.OutputFileName + ".pdf"
     EndFunc
 
-This method should be called after your logic has printed your report. You'll notice that this code calls the Amyuni PDF driver's `Unlock()` method. This call is a little on the superstitious because the driver itself calls this method internally when it's needed. The Unlock() method unlocks the given spool file name and then waits a given number of milliseconds to ensure the PDF is written and closed before continuing. However, you'll also notice a that a second wait occurs in the WaitForFile method (that method is in the `Manager` class). That code provides a second test to make absolutely sure the PDF is ready to use. Latency can occur as the PDF is being written disk and this avoids any problems that may cause.
+This method should be called after your logic has printed your report. You'll notice that this code calls the Amyuni PDF driver's `Unlock()` method. This call is a little on the superstitious side because the driver itself calls this method internally when it's needed. The Unlock() method unlocks the given spool file name and then waits a given number of milliseconds to ensure the PDF is written and closed before continuing. However, you'll also notice a that a second wait occurs in the WaitForFile method (that method is in the `Manager` class). That code provides a second test to make absolutely sure the PDF is ready to use. Latency can occur as the PDF is being written disk and this avoids any problems that may cause.
