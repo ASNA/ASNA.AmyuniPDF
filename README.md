@@ -1,4 +1,4 @@
-### An Amyuni PDF wrapper library
+## The ASNA Amyuni PDF wrapper library
    
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. To make the Amyuni PDF driver easy to use we've squirreled away these tasks in a simple AVR class library wrapper composed of three classes: 
 
@@ -10,7 +10,7 @@ The Amyuni PDF driver needs several configuration tasks performed before it can 
      
 These classes all live within the ASNA.AmyuniPDF namespace. Most of the code in this project is either self-explanatory or can be looked up in the [Amyuni documentation](https://www.amyuni.com/WebHelp/Developer_Documentation.htm#Amyuni_Document_Converter/Introduction.htm).  
 
-#### Persisting runtime values   
+#### Persisting runtime values
 
 When you purchase the Amuni PDF driver you are provided a runtime license code and the exact company name for whom the license was issued. You'll also need to know, at runtime, the name of the Amyuni PDF virtual printer (this is the name of the printer you see when you work with printers and devices). In this example that printer was named `AmyuniPDFConverter`. For safe keeping and easy access, these values are persisted in an XML file named `AmyuniDriverInfo.XML`. This was Forrest's idea and it's a great one. The `GetInstance()` method of the `ASNA.AmyuniPDF.DriverInfo` class parses this XML file to populate driver properties.    
  
@@ -32,6 +32,12 @@ The following properties are surfaced by the `DriverInfo` class:
 * __LicenseCode__ Populated from the `AmyuniDriverInfo.XML` file.
 * __OutputPath__ Provided at runtime. 
 * __OutputFileName__ This is a short, randomly-generated file name without the `.pdf` extension&mdash;it gets added later. This file is generated with the `System.IO.Path.GetRandomFileName()` method. Beyond providing the core part of the PDF file name this is also the name of the entry in the Windows print spooler.  
+
+The `LicenseCompany` and `LicenseCode` properties are used in the `EnablePrinter()` method call in the `Manager` class's `StartDriver()` method, as shown below.
+
+	ReturnCode = AmyuniPDF.EnablePrinter(DriverInfo.LicenseCompany,DriverInfo.LicenseCode)
+
+In discussions with Amyuni tech support, I learned for IP-based licensing schemes this call isn't necessary. It isn't hurting anything but it isn't necessary. I left the call in because some licensing schemes may require it. It is true that if it isn't necessary then the XML document has more info in it than it needs. I considered ejecting the entire XML-based configuration part of this class library. However, you need to get the PrinterName somewhere and the XML file provides a way of fetching that value for both Windows and ASP.NET apps.  
 
 #### Referencing the Amyuni ActiveX COM object
 
