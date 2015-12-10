@@ -37,7 +37,7 @@ The `LicenseCompany` and `LicenseCode` properties are used in the `EnablePrinter
 
 	ReturnCode = AmyuniPDF.EnablePrinter(DriverInfo.LicenseCompany,DriverInfo.LicenseCode)
 
-In discussions with Amyuni tech support, I learned for IP-based licensing schemes this call isn't necessary. It isn't hurting anything but it isn't necessary. I left the call in because some licensing schemes may require it. It is true that if it isn't necessary then the XML document has more info in it than it needs. I considered ejecting the entire XML-based configuration part of this class library. However, you need to get the PrinterName somewhere and the XML file provides a way of fetching that value for both Windows and ASP.NET apps.  
+In discussions with Amyuni tech support, I learned that for IP-based ASP.NET licensing schemes this call isn't necessary. It isn't hurting anything but it isn't necessary. I left the call in because the call is necessary in fat Windows client apps. Leaving the code, and the XML file as presented here, the code works for both Windows and Web apps.  
 
 #### Referencing the Amyuni ActiveX COM object
 
