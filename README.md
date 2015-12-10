@@ -49,7 +49,7 @@ When you add a reference to a COM object in .NET, what you really need is the `I
 
 #### Example usage
 
-The simplest possible use of this class library is shown below. In this case, `XmlFilePath` provides the path where the `AmyuniDriverInfo.XML` is located and `OutFilePath` is the output path where you want generated PDFs placed.
+With the XML file in place, the simplest possible use of this class library is shown below. In this case, `XmlFilePath` provides the path where the `AmyuniDriverInfo.XML` is located and `OutFilePath` is the output path where you want generated PDFs placed.
 
 
     DclPrintFile MyPrint +
