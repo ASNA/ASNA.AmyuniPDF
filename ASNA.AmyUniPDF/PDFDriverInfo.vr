@@ -6,12 +6,19 @@ Using System.IO
 DclNamespace ASNA.AmyUniPDF
 
 BegClass PdfDriverInfo Access(*Public)
+    // The printer name as view in "Devices and Printers" in Windows.
     DclProp PrinterName          Type(*String) Access(*Public) SetAccess(*Private)
+    // The licensed company and code from Amyuni.
     DclProp LicenseCompany       Type(*String) Access(*Public) SetAccess(*Private)
     DclProp LicenseCode          Type(*String) Access(*Public) SetAccess(*Private)
+    // The output path for the PDF file.
     DclProp OutputPath           Type(*String) Access(*Public) SetAccess(*Private)
+    // The PDF file name *without* the PDF extension. 
     DclProp OutputFileName       Type(*String) Access(*Public) SetAccess(*Private)
 
+    // Given the path where the XML configuration file should be located, return 
+    // the full name of the XML configuration. In this example the file name is 
+    // hardcoded at `AmyuniDriverInfo.xml`'
     BegFunc GetFullXmlFileName Type(*String) Access(*Private) Shared(*Yes)
         DclSrParm XmlFilePath  Type(*String)
 
@@ -27,6 +34,7 @@ BegClass PdfDriverInfo Access(*Public)
         LeaveSr FullXmlFileName
     EndFunc
 
+    // This shared method returns an instance of `PdfDriverInfo` with its properties populated.  
     BegFunc GetInstance Access(*Public) Shared(*Yes) Type(PDFDriverInfo)
         DclSrParm XmlFilePath     Type(*String)
         DclSrParm OutputFilePath  Type(*String)
