@@ -5,8 +5,7 @@ DclNamespace ASNA.AmyUniPDF
 
 BegClass Helpers Access(*Public)
 
-    // Ensure that a string ends with a trailing backslash.
-    BegFunc EnsureTrailingBackSlash Type(*String) Access(*Public) Shared(*Yes)
+    BegFunc EnsureTrailingSlash Type(*String) Access(*Public) Shared(*Yes)
         DclSrParm PathName Type(*String)
 
         DclFld Result Type(*String)
@@ -15,7 +14,6 @@ BegClass Helpers Access(*Public)
         LeaveSr Result
     EndFunc
 
-    // Convert inches to print units. 
     BegFunc ConvertInchesToPrintUnits Type(*Packed) Len(2, 1) Access(*Public) Shared(*Yes)
         DclSrParm Inches Type(*Packed) Len(2,1)
 

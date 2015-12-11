@@ -25,7 +25,7 @@ BegClass PdfDriverInfo Access(*Public)
         DclFld   FullXmlFileName Type(*String)
         DclConst FileName Value('AmyuniDriverInfo.xml')
 
-        XmlFilePath = Helpers.EnsureTrailingBackSlash(XmlFilePath)
+        XmlFilePath = Helpers.EnsureTrailingSlash(XmlFilePath)
         FullXmlFileName = XmlFilePath + FileName
         If ( NOT File.Exists(FullXmlFileName))
             Throw *New System.Exception('Amyuni XML driver info file is not available at: ' + FullXmlFileName)
@@ -45,7 +45,7 @@ BegClass PdfDriverInfo Access(*Public)
         DclFld di              Type(PDFDriverInfo) New()
         DclFld FullXmlFileName Type(*String)
 
-        OutputFilePath = Helpers.EnsureTrailingBackSlash(OutputFilePath)
+        OutputFilePath = Helpers.EnsureTrailingSlash(OutputFilePath)
 
         FullXmlFileName = GetFullXmlFileName(XmlFilePath)
         XmlDoc.Load(FullXmlFileName)
