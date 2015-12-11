@@ -6,12 +6,57 @@ Using System.IO
 DclNamespace ASNA.AmyUniPDF
 
 BegClass PdfDriverInfo Access(*Public)
-    DclProp PrinterName          Type(*String) Access(*Public) SetAccess(*Private)
-    DclProp LicenseCompany       Type(*String) Access(*Public) SetAccess(*Private)
-    DclProp LicenseCode          Type(*String) Access(*Public) SetAccess(*Private)
-    DclProp OutputPath           Type(*String) Access(*Public) SetAccess(*Private)
-    DclProp OutputFileName       Type(*String) Access(*Public) SetAccess(*Private)
+    DclFld _PrinterName          Type(*String)
+    DclFld _LicenseCompany       Type(*String)
+    DclFld _LicenseCode          Type(*String)
+    DclFld _OutputPath           Type(*String)
+    DclFld _OutputFileName       Type(*String)
 
+    BegProp PrinterName Type(*String) Access(*Public) SetAccess(*Private)
+        BegGet
+            LeaveSr *This._PrinterName
+        EndGet
+        BegSet
+            *This._PrinterName = *PropVal
+        EndSet
+    EndProp
+
+    BegProp LicenseCompany Type(*String) Access(*Public) SetAccess(*Private)
+        BegGet
+            LeaveSr *This._LicenseCompany
+        EndGet
+        BegSet
+            *This._LicenseCompany = *PropVal
+        EndSet
+    EndProp
+
+    BegProp LicenseCode  Type(*String) Access(*Public) SetAccess(*Private)
+        BegGet
+            LeaveSr *This._LicenseCode
+        EndGet
+        BegSet
+            *This._LicenseCode  = *PropVal
+        EndSet
+    EndProp
+
+    BegProp OutputPath Type(*String) Access(*Public) SetAccess(*Private)
+        BegGet
+            LeaveSr *This._OutputPath
+        EndGet
+        BegSet
+            *This._OutputPath = *PropVal
+        EndSet
+    EndProp
+
+    BegProp OutputFileName Type(*String) Access(*Public) SetAccess(*Private)
+        BegGet
+            LeaveSr *This._OutputFileName
+        EndGet
+        BegSet
+            *This._OutputFileName = *PropVal
+        EndSet
+    EndProp
+        
     BegFunc GetFullXmlFileName Type(*String) Access(*Private) Shared(*Yes)
         DclSrParm XmlFilePath  Type(*String)
 
