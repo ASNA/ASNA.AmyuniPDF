@@ -24,6 +24,7 @@ BegClass Manager Access(*Public)
         *This.DriverInfo = DriverInfo.GetInstance(XmlFilePath, OutputFilePath)
     EndConstructor
 
+    // Start the Amyuni PDF driver.
     BegSr StartDriver Access(*Public)
         DclFld SpoolFileName Type(*String)
         DclFld ReturnCode    Type(*Integer4)
@@ -55,6 +56,7 @@ BegClass Manager Access(*Public)
         EndIf
     EndSr
 
+    // Stop the Amyuni PDF driver.
     BegFunc StopDriver Type(*String) Access(*Public)
         DclFld SpoolFileName Type(*String)
 
@@ -79,7 +81,6 @@ BegClass Manager Access(*Public)
         // This routine is required because it takes a few seconds for AmyuniPDF to 'release' the PDF
         // once print file is closed. This method tries to open file, which it cannot do until AmyuniPDF
         // releases it. Once the file can be opened, you're good to do.
-
         If System.IO.File.Exists(FiletoMonitor)
             FileisInUse = *True
 

@@ -6,10 +6,14 @@ Using System.IO
 DclNamespace ASNA.AmyUniPDF
 
 BegClass PdfDriverInfo Access(*Public)
+    // The printer name as view in "Devices and Printers" in Windows.
     DclFld _PrinterName          Type(*String)
+    // The licensed company and code from Amyuni.
     DclFld _LicenseCompany       Type(*String)
     DclFld _LicenseCode          Type(*String)
+    // The output path for the PDF file.
     DclFld _OutputPath           Type(*String)
+    // The PDF file name *without* the PDF extension. 
     DclFld _OutputFileName       Type(*String)
 
     BegProp PrinterName Type(*String) Access(*Public) SetAccess(*Private)
@@ -57,13 +61,16 @@ BegClass PdfDriverInfo Access(*Public)
         EndSet
     EndProp
         
+    // Given the path where the XML configuration file should be located, return 
+    // the full name of the XML configuration. In this example the file name is 
+    // hardcoded at `AmyuniDriverInfo.xml`'
     BegFunc GetFullXmlFileName Type(*String) Access(*Private) Shared(*Yes)
         DclSrParm XmlFilePath  Type(*String)
 
         DclFld   FullXmlFileName Type(*String)
         DclConst FileName Value('AmyuniDriverInfo.xml')
 
-        XmlFilePath = Helpers.EnsureTrailingSlash(XmlFilePath)
+        XmlFilePath = Helpers.EnsureTrailingBackSlash(XmlFilePath)
         FullXmlFileName = XmlFilePath + FileName
         If ( NOT File.Exists(FullXmlFileName))
             Throw *New System.Exception('Amyuni XML driver info file is not available at: ' + FullXmlFileName)
@@ -72,6 +79,7 @@ BegClass PdfDriverInfo Access(*Public)
         LeaveSr FullXmlFileName
     EndFunc
 
+    // This shared method returns an instance of `PdfDriverInfo` with its properties populated.  
     BegFunc GetInstance Access(*Public) Shared(*Yes) Type(PDFDriverInfo)
         DclSrParm XmlFilePath     Type(*String)
         DclSrParm OutputFilePath  Type(*String)
@@ -82,7 +90,7 @@ BegClass PdfDriverInfo Access(*Public)
         DclFld di              Type(PDFDriverInfo) New()
         DclFld FullXmlFileName Type(*String)
 
-        OutputFilePath = Helpers.EnsureTrailingSlash(OutputFilePath)
+        OutputFilePath = Helpers.EnsureTrailingBackSlash(OutputFilePath)
 
         FullXmlFileName = GetFullXmlFileName(XmlFilePath)
         XmlDoc.Load(FullXmlFileName)
