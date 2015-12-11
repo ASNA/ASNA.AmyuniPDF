@@ -10,7 +10,11 @@ BegClass Helpers Access(*Public)
 
         DclFld Result Type(*String)
 
-        Result = PathName.EndsWith('\') ? PathName : PathName + '\'
+        If (PathName.EndsWith('\'))
+            Result = PathName            
+        Else
+            Result = PathName + '\'
+        EndIf 
         LeaveSr Result
     EndFunc
 
@@ -25,5 +29,4 @@ BegClass Helpers Access(*Public)
     EndFunc
 
 EndClass
-
 
