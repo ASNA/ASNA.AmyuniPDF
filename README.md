@@ -2,13 +2,21 @@
   
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. To make the Amyuni PDF driver easy to use we've squirreled away these tasks in a simple AVR class library wrapper composed of three classes: 
 
-* __Helpers__ provides a couple of helper methods.  
-* __PdfDriverInfo__ provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class. This class instance is available as the `DriverInfo` property of the `Manager` class.      
-* __Manager__ provides the methods that empower the Amyuni PDF driver to do its magic. The three methods (which correspond nearly directly to the three Amyuni APIs needs to work with the driver) are:
+* [__Helpers__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/Helpers.html) provides a couple of helper methods.  
+* [__PdfDriverInfo__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/PDFDriverInfo.html) provides driver and runtime properties. Once these properties are populated, all of the data needed the use the Amyuni PDF driver is available in a single place. This class populates some of the driver properties from an XML file (more on this in a moment) and it also provides a shared `GetInstance()` factory (of sorts) method to return an instance of itself. This factory method encapsulates  all of the smarts to instance the `DriverInfo` class. This class instance is available as the `DriverInfo` property of the `Manager` class.      
+* [__Manager__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/Manager.html) provides the methods that empower the Amyuni PDF driver to do its magic. The three methods (which correspond nearly directly to the three Amyuni APIs needs to work with the driver) are:
 	* __StartDriver__ is a subroutine that starts the Amyuni PDF driver. After calling this method, the driver is ready to accept output. 
 	* __StopDriver__  is a function that stops the Amyuni PDF driver. This method must be called after the report logic has been performed. This driver stops the Amyuni PDF driver and returns the PDF's file name (the name and extension only, not the file's fully qualified path location).  git sta
-     
-These classes all live within the ASNA.AmyuniPDF namespace. Most of the code in this project is either self-explanatory or can be looked up in the [Amyuni documentation](https://www.amyuni.com/WebHelp/Developer_Documentation.htm#Amyuni_Document_Converter/Introduction.htm).  
+
+Fully annotated source code for the three classes above are available here: 
+
+* [__Helpers__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/Helpers.html)
+* [__PdfDriverInfo__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/PDFDriverInfo.html)      
+* [__Manager__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/Manager.html)
+
+These classes all live within the ASNA.AmyuniPDF namespace. Notes on parts of this code are below. 
+      
+[The Amyuni help can be found here.](https://www.amyuni.com/WebHelp/Developer_Documentation.htm#Amyuni_Document_Converter/Introduction.htm).  
 
 #### Persisting runtime values
 
