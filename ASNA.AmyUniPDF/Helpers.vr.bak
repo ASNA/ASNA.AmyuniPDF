@@ -1,7 +1,4 @@
-﻿Helper functions.
-// ---------------
-
-Using System
+﻿Using System
 Using System.Text
 
 DclNamespace ASNA.AmyUniPDF
