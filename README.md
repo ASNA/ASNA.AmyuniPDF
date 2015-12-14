@@ -2,6 +2,8 @@
 
 >Note: Change to the master branch, from the dropdown above, for AVR 12+ code.
 
+A tip of the ASNA nerd beanie to Forrest Forbus for his substantial help in understanding how to make the Amyuni PDF driver work with AVR for .NET!
+
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. To make the Amyuni PDF driver easy to use we've squirreled away these tasks in a simple AVR class library wrapper composed of three classes: 
 
 * [__Helpers__](http://asna.github.io/AVR-ASP.NET-Amyuni-AnnotatedCode/code/ASNA.AmyuniPDF/Helpers.html) provides a couple of helper methods.  
