@@ -1,10 +1,19 @@
-﻿Using System
+﻿// This class provides the methods that empower the Amyuni PDF driver to do its magic.
+
+// A longtime friend of ASNA's, Forrest Forbus (that's right, [Elvis himself!](https://asna.com/us/articles/newsletter/2014/q4/asna-palooza-2014))
+// contributed lots of code, ideas, and inspiration for this code. Beyond contributing code,
+// it was his work that originally proved the Amyuni PDF print driver works with AVR for .NET.
+// Thank you for all your help, Forrest.
+
+Using System
 Using System.Text
 Using System.IO
 Using System.Xml
 
 DclNamespace ASNA.AmyUniPDF
 
+// The Amnyuni PDF print driver has many options, but these are two the
+// two need to use it with AVR for .NET.
 BegEnum AmyuniFileOptions
     DclEnumFld DoNotPromptForFileName Value(1)
     DclEnumFld UseFileNameSpecified   Value(2)
@@ -14,13 +23,13 @@ BegClass Manager Access(*Public)
     DclFld DriverInfo Type(PDFDriverInfo) Access(*Public)
     DclFld AmyuniPDF  Type(CDIntfEx.CDIntfExClass) Access(*Private)
 
-    //--------------------------------------------------------------------------
-    // Public constructor(s).
-    //--------------------------------------------------------------------------
     BegConstructor Access(*Public)
         DclSrParm XmlFilePath     Type(*String)
         DclSrParm OutputFilePath  Type(*String)
 
+        // The driver needs location of the XML configuration file and
+        // where you want PDFs placed. It's generally important for ASP.NET work
+        // to put PDFs in a folder under the app's virtual directory.
         *This.DriverInfo = DriverInfo.GetInstance(XmlFilePath, OutputFilePath)
     EndConstructor
 
@@ -42,6 +51,7 @@ BegClass Manager Access(*Public)
             Throw *New System.ApplicationException("AmyuniPDF failed on DriverInit() call.")
         EndIf
 
+        // Set driver defaults.
         AmyuniPDF.HorizontalMargin = 0
         AmyuniPDF.VerticalMargin   = 0
         AmyuniPDF.SetDefaultConfig()
