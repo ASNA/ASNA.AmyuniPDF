@@ -1,4 +1,6 @@
 ## The ASNA Amyuni PDF wrapper library (for AVR 12+)
+
+>Note: Change to the master branch, from the dropdown above, for AVR 11 code.
   
 The Amyuni PDF driver needs several configuration tasks performed before it can be used. To make the Amyuni PDF driver easy to use we've squirreled away these tasks in a simple AVR class library wrapper composed of three classes: 
 
