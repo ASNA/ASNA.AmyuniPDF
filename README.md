@@ -1,6 +1,6 @@
 ## The ASNA Amyuni PDF wrapper library (for AVR 12+)
 
->Note: Change to the master branch, from the dropdown above, for AVR 12+ code.
+>Note: Change to the master branch, from the dropdown above, for AVR 11 code.
 
 A tip of the ASNA nerd beanie to Forrest Forbus for his substantial help in understanding how to make the Amyuni PDF driver work with AVR for .NET!
 
